@@ -16,7 +16,7 @@ class Location(NamedTuple):
 
 
 class map:
-    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.2, start: Location = Location(0, 0), goal: Location = Location(15, 15)) -> None:
+    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.15, start: Location = Location(0, 0), goal: Location = Location(15, 15)) -> None:
         # Initialize a random map for the algorithm to solve
         self._rows: int = rows
         self._columns: int = columns
@@ -43,7 +43,7 @@ class map:
         output: str = ""
         for row in self._grid:
             output += "".join([cell.value for cell in row]) + "\n"
-            return output
+        return output
 
 randomMap: map = map()
 print(randomMap)
