@@ -1,5 +1,6 @@
 from enum import Enum
 import random
+import astar
 from typing import List, NamedTuple, Callable, Optional
 from math import sqrt
 
@@ -44,6 +45,28 @@ class map:
         for row in self._grid:
             output += "".join([cell.value for cell in row]) + "\n"
         return output
+
+    def goal_test(self, loc: Location) -> bool:
+        return loc == self.goal
+
+    #Check which moves can be taken given current location
+    def successors(self, loc: Location) -> List[Location]:
+        locations: List[Location] = []
+        #check move right
+        if loc.row + 1 < self._rows and self._grid[loc.row + 1][loc.column] != Cell.BLOCKED:
+            locations.append(Location(loc.row + 1, loc.column))
+
+        #check move left
+        if loc.row - 1 >= 0 and self._grid[loc.row - 1][loc.column] != Cell.BLOCKED:
+            locations.append(Location(loc.row - 1, loc.column))
+        #check move up
+        if loc.column + 1 < self._columns and self._grid[loc.row][loc.column + 1] != Cell.BLOCKED:
+            locations.append(Location(loc.row, loc.column + 1))
+        #check move down
+        if loc.column -1 >= 0 and self._grid[loc.row][loc.column - 1] != Cell.BLOCKED:
+            locations.append(Location(loc.row, loc.column - 1))
+
+        return locations
 
 randomMap: map = map()
 print(randomMap)
