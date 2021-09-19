@@ -16,7 +16,7 @@ class Location(NamedTuple):
 
 
 class map:
-    def __init__(self, rows: int = 20, columns: int = 10, sparseness: float = 0.2, start: Location = Location(0, 0), goal: Location = Location(19, 19)) -> None:
+    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.2, start: Location = Location(0, 0), goal: Location = Location(15, 15)) -> None:
         # Initialize a random map for the algorithm to solve
         self._rows: int = rows
         self._columns: int = columns
@@ -28,10 +28,23 @@ class map:
         #add in random blocked cells
         self._randomly_fill(rows, columns, sparseness)
         #set start and goal cells
-        self._grid[start.row][start.column] = Cell.Start
-        self._grid[goal.row][goal.column] = Cell.Goal
+        self._grid[start.row][start.column] = Cell.START
+        self._grid[goal.row][goal.column] = Cell.GOAL
 
 
-    def randomly_fill(self, rows: int, columns, int, sparseness: float):
+    def _randomly_fill(self, rows: int, columns: int, sparseness: float):
         for row in range(rows):
+            for column in range(columns):
+                if random.uniform(0, 1.0) < sparseness:
+                    self._grid[row][column] = Cell.BLOCKED
 
+    #Return a printable view of the maze
+    def __str__(self) -> str:
+        output: str = ""
+        for row in self._grid:
+            output += "".join([cell.value for cell in row]) + "\n"
+            return output
+
+randomMap: map = map()
+print(randomMap)
+        
