@@ -1,6 +1,5 @@
 from enum import Enum
 import random
-import astar
 from typing import List, NamedTuple, Callable, Optional
 from math import sqrt
 
@@ -17,7 +16,7 @@ class Location(NamedTuple):
 
 
 class map:
-    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.1, start: Location = Location(0, 0), goal: Location = Location(15, 15)) -> None:
+    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.1, start: Location = Location(0, 0), goal: Location = Location(19, 19)) -> None:
         # Initialize a random map for the algorithm to solve
         self._rows: int = rows
         self._columns: int = columns
@@ -68,6 +67,7 @@ class map:
 
         return locations
 
-randomMap: map = map()
-print(randomMap)
-        
+        def manhattan_heuristic(self, current: Location) -> float:
+            xdist: int = abs(current.column - self.goal.column)
+            ydist: int = abs(current.row - self.goal.row)
+            return (xdist + ydist)
