@@ -25,6 +25,9 @@ class map:
         self.goal: Location = goal
         #Initialize a 2D array of type cell enumerator
         self._grid: List[List[Cell]] = [[Cell.EMPTY for c in range(columns)] for r in range(rows)]
+        #keep track of nodes expanded
+        self.expanded: int = 0
+
 
         #add in random blocked cells
         self._randomly_fill(rows, columns, sparseness)

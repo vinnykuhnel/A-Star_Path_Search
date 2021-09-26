@@ -1,7 +1,7 @@
 from heapq import heappush, heappop
 from path import Location, Cell, map
 from typing import TypeVar, Iterable, Sequence, Generic, List, Callable, Set, Deque, Dict, Any, Optional
-
+import sys
 
 class Node(object):
     def __init__(self, loc: Location, cost: float, heuristic: float, parent=None):
@@ -44,7 +44,6 @@ def astar(start: Location, grid: map) -> Node:
     while not frontier.empty:
         current_node = frontier.pop()
         current_loc = current_node.location
-        print(current_loc)
         
         if grid.goal_test(current_loc):
             return current_node
@@ -54,6 +53,7 @@ def astar(start: Location, grid: map) -> Node:
             if child not in explored or explored[child] > new_cost:
                 explored[child] = new_cost
                 frontier.push(Node(child, new_cost, grid.manhattan(child), current_node))
+                grid.expanded = grid.expanded + 1
     return None
 
 
@@ -67,8 +67,15 @@ def constructPath(grid: map, node: Node) -> None:
 
 
 if __name__ == "__main__":
-    randomMap: map = map()
+    if len(sys.argv) < 3:
+        print("ERROR: Please pass row and column number")
+        exit()
+    rows = int(sys.argv[1])
+    columns = int(sys.argv[2])
+    
+    randomMap: map = map(rows, columns, 0.1, Location(0, 0), Location(rows - 2, columns - 2))
     solutionNode: Node = astar(randomMap.start, randomMap)
     constructPath(randomMap, solutionNode)
-    print(randomMap)
-
+    if sys.argv[3] == "print":
+        print(randomMap)
+    print("Nodes expanded: " + str(randomMap.expanded))
