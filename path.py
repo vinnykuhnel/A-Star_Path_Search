@@ -17,7 +17,7 @@ class Location(NamedTuple):
 
 
 class map:
-    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.1, start: Location = Location(0, 0), goal: Location = Location(19, 19)) -> None:
+    def __init__(self, rows: int = 20, columns: int = 20, sparseness: float = 0.2, start: Location = Location(0, 0), goal: Location = Location(19, 19)) -> None:
         # Initialize a random map for the algorithm to solve
         self._rows: int = rows
         self._columns: int = columns

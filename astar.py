@@ -73,9 +73,12 @@ if __name__ == "__main__":
     rows = int(sys.argv[1])
     columns = int(sys.argv[2])
     
-    randomMap: map = map(rows, columns, 0.1, Location(0, 0), Location(rows - 2, columns - 2))
+    randomMap: map = map(rows, columns, 0.2, Location(0, 0), Location(rows - 2, columns - 2))
     solutionNode: Node = astar(randomMap.start, randomMap)
-    constructPath(randomMap, solutionNode)
+    if solutionNode:
+        constructPath(randomMap, solutionNode)
+    else:
+        print("There is no path that leads to the goal state!")
     if sys.argv[3] == "print":
         print(randomMap)
     print("Nodes expanded: " + str(randomMap.expanded))
