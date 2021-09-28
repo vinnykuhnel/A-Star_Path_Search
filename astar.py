@@ -81,4 +81,5 @@ if __name__ == "__main__":
         print("There is no path that leads to the goal state!")
     if sys.argv[3] == "print":
         print(randomMap)
+    #Output the number of nodes expanded 
     print("Nodes expanded: " + str(randomMap.expanded))
