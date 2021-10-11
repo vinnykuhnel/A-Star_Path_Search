@@ -2,6 +2,7 @@ from heapq import heappush, heappop
 from path import Location, Cell, map
 from typing import TypeVar, Iterable, Sequence, Generic, List, Callable, Set, Deque, Dict, Any, Optional
 import sys
+from graphics import guiWrapper
 
 
 #Represents the cost of making a move to a certian location
@@ -45,6 +46,9 @@ def astar(start: Location, grid: map) -> Node:
     
     while not frontier.empty:
         current_node = frontier.pop()
+        if grid._grid[current_node.location.row][current_node.location.column] != Cell.START:
+            if grid._grid[current_node.location.row][current_node.location.column] != Cell.GOAL:
+                grid._grid[current_node.location.row][current_node.location.column] = Cell.EXPAND
         grid.expanded = grid.expanded + 1
         current_loc = current_node.location
         
@@ -55,14 +59,18 @@ def astar(start: Location, grid: map) -> Node:
             
             if child not in explored or explored[child] > new_cost:
                 explored[child] = new_cost
-                frontier.push(Node(child, new_cost, grid.manhattan(child), current_node))
+                generatedNode = Node(child, new_cost, grid.manhattan(child), current_node)
+                frontier.push(generatedNode)
+                if grid._grid[generatedNode.location.row][generatedNode.location.column] != Cell.START:
+                    if grid._grid[generatedNode.location.row][generatedNode.location.column] != Cell.GOAL:    
+                        grid._grid[generatedNode.location.row][generatedNode.location.column] = Cell.GENERATE
                 grid.generated = grid.generated + 1
     return None
 
 
 def constructPath(grid: map, node: Node) -> None:
     while node.parent:
-        if grid._grid[node.location.row][node.location.column] == ' ':
+        if grid._grid[node.location.row][node.location.column] != 'S':
 
             grid._grid[node.location.row][node.location.column] = Cell.PATH
         node = node.parent
@@ -82,8 +90,12 @@ if __name__ == "__main__":
         constructPath(randomMap, solutionNode)
     else:
         print("There is no path that leads to the goal state!")
-    if sys.argv[3] == "print":
-        print(randomMap)
     #Output the number of nodes expanded/generated
     print("Nodes generated: " + str(randomMap.generated))
     print("Nodes expanded: " + str(randomMap.expanded))
+    if sys.argv[3] == "display":
+        wrap: guiWrapper = guiWrapper(randomMap)
+        wrap.setGrid()
+        wrap.loop()
+    if sys.argv[3] == "print":
+        print(randomMap)

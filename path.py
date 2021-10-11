@@ -9,6 +9,8 @@ class Cell(str, Enum):
     START = "S"
     GOAL = "G"
     PATH = "*"
+    EXPAND = "E"
+    GENERATE = "R"
 
 class Location(NamedTuple):
     row: int
